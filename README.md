@@ -44,3 +44,46 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+const fetchData = () => {
+      const postApi = 'https://gorest.co.in/public/v1/posts';
+        const userApi = 'https://gorest.co.in/public/v1/users';
+        
+
+        const getUserApi = axios.get(userApi);
+        const getPostApi = axios.get(postApi);
+        axios.all([getUserApi, getPostApi]).then(
+            axios.spread((...allData) => {
+                const allDataPlayer =allData[0].data;
+                const getPostApi = allData[1].data;
+                setUsers(allDataPlayer);
+                setPost(getPostApi);
+                // console.log(getPostApi);
+            })
+        )
+    }
+
+useEffect(() => {
+    fetchData()
+},[])
+
+
+
+//     useEffect(() =>{
+//         Axios.get('https://gorest.co.in/public/v1/users')
+//         .then((response:any) => {
+//             console.log("Getting Users::::",response.users)
+//             setUsers(response.users.data)
+//         }).catch(err => console.log(err))
+//     }, [])
+
+//     useEffect(() =>{
+//         Axios.get('https://gorest.co.in/public/v1/posts')
+//         .then((res:any) => {
+//             console.log("Getting from ::::",res.data)
+//             setApi(res.data.data)
+//         }).catch(err => console.log(err))
+ 
+//     }, [])
+// data && data.data && data.data.length && 
