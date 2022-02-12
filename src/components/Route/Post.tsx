@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import { Table, Pagination, Button, InputGroup, FormControl } from "react-bootstrap";
+import { Table, Pagination, Button, InputGroup, FormControl,Modal } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import User from "./User";
 
@@ -10,7 +10,12 @@ function Post(props: any) {
 	const [delid, setDelete] = useState([]);
 	const [search, setSearch] = useState<any>("");
 	const [opsearch, setOutearch] = useState<any[]>([]);
-  
+	const [show, setShow] = useState(false);
+	const [yesDelete,setYesDelete] = useState({id:0,index:0});
+	const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
+
+	
 	console.log(search);
 	const [pagination, setPagination] = useState({
 		limit: 20,
@@ -71,6 +76,7 @@ function Post(props: any) {
 
 	const accessToken = "fd66f3209595370cdc08dc1affa02ed4827672012390a74fdd4cfe5728c14c33";
 
+
 	const postDelete = (id: any, index: any) => {
 		console.log(id);
 		const data = {
@@ -88,7 +94,7 @@ function Post(props: any) {
 			},
 		})
 			.then((response) => {
-				console.log("success");
+				alert("Deleted");
 				post.splice(index, 1);
 				return Delete(post);
 			})
@@ -96,6 +102,7 @@ function Post(props: any) {
 				//return  error;
 			});
 	};
+
 
 	const arr = opsearch.map((data: any, index) => {
 		return (
@@ -109,16 +116,17 @@ function Post(props: any) {
 				<td>{data.title}</td>
 				<td>{data.body}</td>
 				<td>
-					{" "}
-					<Button onClick={(e: any) => postDelete(data.id, index)}>Delete</Button>{" "}
+					{"  "}
+					<Button onClick={(e: any) =>{handleShow();setYesDelete({id:data.id,index: index});}}>Delete</Button>{" "}
 				</td>
 			</tr>
 		);
 	});
-
 	//  useEffect(() => {
 	//    Axios.get(  )
 	//  })
+
+	
 	return (
 		<div className="App">
 			<InputGroup style={{ width: "350px", marginLeft: "500px", marginTop: "40px" }}>
@@ -166,6 +174,17 @@ function Post(props: any) {
 				Next
 			</Button>
 			{"   "}
+			<Modal show={show} onHide={handleClose}>
+			  <Modal.Header closeButton>
+				<Modal.Title>Modal heading</Modal.Title>
+			  </Modal.Header>
+			  <Modal.Body>You sure you wanna delete?</Modal.Body>
+			  <Modal.Footer>
+				<Button variant="danger" onClick={()=>{postDelete(yesDelete.id,yesDelete.index);handleClose()}}>
+				  Delete
+				</Button>
+			  </Modal.Footer>
+			</Modal>
 		</div>
 	);
 }

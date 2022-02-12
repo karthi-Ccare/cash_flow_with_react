@@ -6,8 +6,8 @@ import Todouser from "./Todo_id";
 import { Prev } from "react-bootstrap/esm/PageItem";
 
 
-const Todo = (props:any) => {
 
+const Todo = (props:any) => {
     const [todo, setTodo] = useState([])
     const [pagination, setPagination] = useState({
 
@@ -32,7 +32,7 @@ const Todo = (props:any) => {
       useEffect(() => {
       Prev(pagination.links.current)
     }, [])
-
+    
              const arr = todo.map((data:any,index) => {
             return (
               <tr key={index}>
